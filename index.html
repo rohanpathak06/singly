@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Signly — A zero-backend, browser-native signature tool.">
+  <meta name="theme-color" content="#0D0D0D">
+  <title>Signly — Signatures, Reimagined</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Pacifico&family=Dancing+Script&family=Caveat&family=Great+Vibes&family=Sacramento&family=Satisfy&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/main.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- ==================== NAVBAR ==================== -->
+    <header class="header" role="banner">
+      <a href="#" class="header__logo">SIGNLY</a>
+      <nav class="header__nav">
+        <a href="https://github.com" target="_blank" class="header__nav-link">GitHub</a>
+      </nav>
+    </header>
+
+    <!-- ==================== HERO / APP AREA ==================== -->
+    <section class="hero" aria-label="Main Application">
+      <div class="hero__container">
+        
+        <!-- Left Column: Typography -->
+        <div class="hero__content">
+          <div class="tagline">draw it. type it. done.</div>
+          <h1 class="headline">
+            Draw or type your signature.<br>Download a transparent PNG.<br><span class="headline-accent">Nothing leaves your browser.</span>
+          </h1>
+
+          <div class="steps-list">
+            <div class="step-item">
+              <span class="step-num">01</span>
+              <div class="step-text">
+                <h3>Select Input Mode</h3>
+                <p>Draw with pressure sensitivity, type with cursive fonts, or upload a scan.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">02</span>
+              <div class="step-text">
+                <h3>Customize Appearance</h3>
+                <p>Adjust ink color and stroke weight to match your document's aesthetic.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-num">03</span>
+              <div class="step-text">
+                <h3>Export Locally</h3>
+                <p>Download as a transparent PNG or SVG vector. No server round-trips.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="trust-line">
+            no upload. no server. transparent PNG, straight to your device.
+          </div>
+        </div>
+
+        <!-- Right Column: App Panel -->
+        <div class="app-panel" id="app-workspace">
+          <!-- Fake Window Chrome -->
+          <div class="app-panel__chrome">
+            <div class="chrome-dots">
+              <div class="chrome-dot"></div>
+              <div class="chrome-dot"></div>
+              <div class="chrome-dot"></div>
+            </div>
+            <div class="chrome-label">signly-workspace.sh</div>
+          </div>
+
+          <div class="app-panel__body">
+            
+            <!-- Mode Tabs -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <nav class="mode-tabs" role="tablist" aria-label="Signature mode">
+                <button class="mode-tab mode-tab--active" role="tab" id="tab-draw" aria-selected="true" data-mode="draw">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                  Draw
+                </button>
+                <button class="mode-tab" role="tab" id="tab-type" aria-selected="false" data-mode="type">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+                  Type
+                </button>
+                <button class="mode-tab" role="tab" id="tab-upload" aria-selected="false" data-mode="upload">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Upload
+                </button>
+              </nav>
+
+              <div class="controls-inline">
+                <button class="btn--icon" id="btnUndo" aria-label="Undo" disabled>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                </button>
+                <button class="btn--icon" id="btnClear" aria-label="Clear">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Type Input (Hidden by default based on app.js logic, but keeping structure) -->
+            <div class="type-input-wrap" id="typeInputWrap">
+              <input type="text" class="type-input" id="typeInput" placeholder="> Type your name here..." aria-label="Type your signature name" maxlength="50">
+            </div>
+
+            <!-- Font Picker (Hidden by default) -->
+            <div class="font-picker" id="fontPicker" role="radiogroup" aria-label="Choose a signature font">
+              <button class="font-option font-option--active" role="radio" aria-checked="true" data-font="Pacifico" style="font-family: 'Pacifico', cursive;">Pacifico</button>
+              <button class="font-option" role="radio" aria-checked="false" data-font="Dancing Script" style="font-family: 'Dancing Script', cursive;">Dancing Script</button>
+              <button class="font-option" role="radio" aria-checked="false" data-font="Caveat" style="font-family: 'Caveat', cursive;">Caveat</button>
+              <button class="font-option" role="radio" aria-checked="false" data-font="Great Vibes" style="font-family: 'Great Vibes', cursive;">Great Vibes</button>
+              <button class="font-option" role="radio" aria-checked="false" data-font="Sacramento" style="font-family: 'Sacramento', cursive;">Sacramento</button>
+              <button class="font-option" role="radio" aria-checked="false" data-font="Satisfy" style="font-family: 'Satisfy', cursive;">Satisfy</button>
+            </div>
+
+            <!-- Upload Zone -->
+            <div class="upload-zone" id="uploadZone" role="button" aria-label="Upload a signature image" tabindex="0">
+              <div class="upload-zone__text">Click to upload or drag & drop PNG/JPEG</div>
+              <input type="file" id="uploadInput" accept="image/png,image/jpeg" class="sr-only" aria-label="Choose signature image file">
+            </div>
+            <div class="upload-error" id="uploadError" role="alert" style="color: var(--color-error); font-size: 11px; font-family: var(--font-mono);"></div>
+
+            <!-- Canvas Wrapper -->
+            <div class="canvas-wrap" id="canvasWrap">
+              <canvas id="signatureCanvas" aria-label="Signature drawing area" role="img"></canvas>
+              <div class="canvas-guide" id="canvasGuide" aria-hidden="true"></div>
+            </div>
+
+            <!-- Bottom Panel Controls -->
+            <div class="app-panel__footer" id="controlsPanel">
+              <div class="controls-inline">
+                <div class="color-swatches" id="colorSwatches" role="radiogroup">
+                  <button class="color-swatch color-swatch--active" role="radio" aria-checked="true" aria-label="White" data-color="#FFFFFF" style="background-color: #FFFFFF;"></button>
+                  <button class="color-swatch" role="radio" aria-checked="false" aria-label="Accent" data-color="#FFE000" style="background-color: #FFE000;"></button>
+                  <button class="color-swatch" role="radio" aria-checked="false" aria-label="Cyan" data-color="#06b6d4" style="background-color: #06b6d4;"></button>
+                  <div class="color-swatch color-swatch--custom" aria-label="Custom color">
+                    <input type="color" id="customColor" value="#FFFFFF" aria-label="Pick a custom ink color">
+                  </div>
+                </div>
+
+                <!-- Stroke Weight hidden range slider, we keep it for logic but maybe style it minimally -->
+                <input type="range" id="strokeWeight" min="1" max="8" value="3" step="0.5" style="width: 60px;">
+              </div>
+
+              <!-- Export Settings & Buttons -->
+              <div class="controls-inline">
+                <label class="control-label" style="display:flex; align-items:center; gap:6px;">
+                  <span style="font-family: var(--font-mono); font-size: 11px;">Bg</span>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="whiteExport">
+                    <span class="toggle-track" aria-hidden="true"></span>
+                  </label>
+                </label>
+
+                <div class="export-actions">
+                  <button class="btn btn--secondary" id="btnSvg" disabled aria-label="Download as SVG">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  </button>
+                  <button class="btn btn--secondary" id="btnCopy" disabled aria-label="Copy to clipboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  </button>
+                  <button class="btn btn--primary" id="btnDownload" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Export
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer" role="contentinfo">
+    <div>Signly v3.0.0 &mdash; Minimal Developer Edition</div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
